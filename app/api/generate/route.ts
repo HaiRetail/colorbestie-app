@@ -29,18 +29,18 @@ function skillGuidance(skillLevel?: string | null) {
   const level = (skillLevel || "beginner").toLowerCase();
 
   if (level === "pro") {
-    return "Target output: advanced/pro marker artist. Push rich value range, nuanced color temperature shifts, confident shadow design, and polished finishing details.";
+    return "Target output: advanced/pro marker artist. Push rich value range, nuanced color temperature shifts, confident shadow design, polished finishing details, and deliberate full-scene color separation.";
   }
 
   if (level === "experienced") {
-    return "Target output: experienced marker artist. Use clean blends, strong readability, controlled contrast, and tasteful detail density.";
+    return "Target output: experienced marker artist. Use clean blends, strong readability, controlled contrast, tasteful detail density, and clear color separation across major objects.";
   }
 
   if (level === "learning") {
-    return "Target output: intermediate/learning marker artist. Keep transitions smooth and forms clear, avoid overcomplicated textures, and prioritize good color harmony. Mandatory coverage rule: fully color all intended regions and fill the full canvas composition; do NOT leave large blank/uncolored paper areas.";
+    return "Target output: intermediate/learning marker artist. Keep transitions smooth and forms clear, avoid overcomplicated textures, and prioritize good color harmony. Mandatory coverage rule: fully color all intended regions and fill the full canvas composition. Do NOT leave large blank/uncolored paper areas, pale washed-out zones, or half-finished sections.";
   }
 
-  return "Target output: beginner-friendly marker result. Keep it clean, readable, and forgiving: simpler values, clear edges, pleasant blends, and complete coverage. Mandatory coverage rule: fully color all intended regions and fill the full canvas composition; do NOT leave large blank/uncolored paper areas.";
+  return "Target output: beginner-friendly marker result, but still polished and complete. Keep it simple, readable, and forgiving with clear local colors, visible contrast, and full confident fills. Do NOT interpret beginner as faint, low-saturation, beige-heavy, or mostly-white. Mandatory coverage rule: fully color all intended regions and fill the full canvas composition. No large blank/uncolored paper areas, no half-finished look, no washed-out result.";
 }
 
 type MarkerSelection = { brand: string; series: string; setSize: string; extraColors?: string[] };
@@ -72,13 +72,15 @@ function buildPrompt(theme: string, skillLevel?: string | null, markerSelections
     skillGuidance(skillLevel),
     markerGuidance(markerSelections),
     specialWishes ? `Special wishes from user: ${specialWishes}.` : null,
-    "Keep composition recognizable but create a fresh rendered result (not a copy of the input file).",
-    "Use marker-like blending, selective shadows, and clean highlights.",
-    "The final image MUST be fully colorized and visually rich.",
-    "Critical coverage rule: avoid accidental empty/white patches; fully color all major regions of the subject unless the input line art clearly indicates tiny paper-white highlights.",
-    "Never return a plain line-art sketch, monochrome-only result, or mostly-white page with faint lines.",
-    "Color requirement: use at least 5 clearly visible colored regions across subject/background elements.",
-    "Add white marker accents and subtle gel-pen sparkle details, but keep them small and intentional (never as large uncolored zones).",
+    "Keep composition recognizable but create a fresh rendered result, not a near-identical faded copy of the input.",
+    "Use marker-like blending, selective shadows, clean highlights, and clear color blocking between major objects.",
+    "The final image MUST be fully colorized, visually rich, and clearly finished.",
+    "Critical coverage rule: avoid accidental empty or white patches. Fully color all major regions of the subject and background unless the line art clearly indicates tiny paper-white highlights only.",
+    "Do not leave shelves, walls, objects, or background areas half-colored, cream-only, or barely tinted.",
+    "Never return a plain line-art sketch, monochrome-only result, mostly-white page, faint pastel wash, or unfinished-looking render.",
+    "Color requirement: use at least 7 clearly visible colored regions across subject and background elements, with obvious separation between foreground items.",
+    "Prefer warm, cozy, attractive marker colors with readable contrast. Beginner mode should still look deliberate, colorful, and complete.",
+    "Add white marker accents and subtle gel-pen sparkle details, but keep them small and intentional, never as large uncolored zones.",
     "Return only the generated image.",
   ]
     .filter(Boolean)
@@ -630,9 +632,9 @@ export async function POST(request: Request) {
         apiKey: geminiKey,
         prompt: [
           basePrompt,
-          "MANDATORY FIX: previous output looked near-empty/uncolored.",
-          "Regenerate with clear vibrant color fills, strong readable contrast, and no blank-paper look.",
-          "Do not return line art only.",
+          "MANDATORY FIX: previous output looked near-empty, washed-out, or undercolored.",
+          "Regenerate with clear confident color fills, stronger readable contrast, and full coverage across the whole composition.",
+          "Do not return line art only, pale beige wash, or a half-finished page.",
         ].join("\n"),
         inputMimeType,
         inputBase64,
