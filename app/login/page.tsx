@@ -67,7 +67,9 @@ export default async function LoginPage({ searchParams }: Props) {
           </div>
         </HideOnNativeIOS>
 
-        <SupabaseEmailAuth callbackUrl={callbackUrl} uiLanguage={uiLanguage} />
+        <HideOnNativeIOS>
+          <SupabaseEmailAuth callbackUrl={callbackUrl} uiLanguage={uiLanguage} />
+        </HideOnNativeIOS>
 
       </section>
     </main>

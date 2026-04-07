@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { fromNavigatorLanguage, t } from "@/lib/i18n";
+import { isNativePlatform } from "@/lib/platform";
 import type { UiLanguage } from "@/lib/ui-language";
 
 export function InAppBrowserWarning() {
@@ -11,6 +12,11 @@ export function InAppBrowserWarning() {
 
   useEffect(() => {
     setUiLanguage(fromNavigatorLanguage(navigator.language));
+
+    if (isNativePlatform()) {
+      setShow(false);
+      return;
+    }
 
     const ua = navigator.userAgent.toLowerCase();
     const isInApp =

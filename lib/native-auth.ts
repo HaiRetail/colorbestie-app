@@ -1,6 +1,6 @@
 "use client";
 
-import { isNativeIOS } from "@/lib/platform";
+import { isNativePlatform } from "@/lib/platform";
 import { getSupabaseBrowserClient } from "@/lib/supabase-auth-client";
 
 /** Generate a random raw nonce string */
@@ -20,15 +20,15 @@ async function sha256Hash(message: string): Promise<string> {
 }
 
 /**
- * On native iOS, use the Capacitor social-login plugin to get a native
- * idToken (no Safari redirect), then exchange it with Supabase.
+ * On native Capacitor, use the social-login plugin to get a native
+ * idToken, then exchange it with Supabase.
  * Returns true if handled natively, false if web flow should proceed.
  */
 export async function nativeSignIn(
   provider: "google" | "apple",
   callbackUrl: string,
 ): Promise<boolean> {
-  if (!isNativeIOS()) return false;
+  if (!isNativePlatform()) return false;
 
   const { SocialLogin } = await import("@capgo/capacitor-social-login");
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { isNativeIOS } from "@/lib/platform";
+import { getNativePlatform, isNativePlatform } from "@/lib/platform";
 import { nativeSignIn } from "@/lib/native-auth";
 import { t } from "@/lib/i18n";
 import type { UiLanguage } from "@/lib/ui-language";
@@ -16,8 +16,8 @@ type Props = {
 };
 
 /**
- * On native iOS: intercepts OAuth and uses native sign-in (no Safari).
- * On web: renders nothing — the server-action forms handle it.
+ * On native Capacitor: intercept OAuth and use native sign-in.
+ * On web: renders nothing, the server-action forms handle it.
  */
 export function NativeLoginButtons({
   callbackUrl,
@@ -25,13 +25,17 @@ export function NativeLoginButtons({
   hasApple,
 }: Props) {
   const [isNative, setIsNative] = useState(false);
+  const [platform, setPlatform] = useState<string | null>(null);
   const [loading, setLoading] = useState<"google" | "apple" | null>(null);
 
   useEffect(() => {
-    setIsNative(isNativeIOS());
+    setIsNative(isNativePlatform());
+    setPlatform(getNativePlatform());
   }, []);
 
   if (!isNative) return null;
+
+  const showApple = hasApple && platform === "ios";
 
   const handleNativeSignIn = async (provider: "google" | "apple") => {
     try {
@@ -84,7 +88,7 @@ export function NativeLoginButtons({
             })}
       </Button>
 
-      {hasApple ? (
+      {showApple ? (
         <Button
           type="button"
           size="lg"
