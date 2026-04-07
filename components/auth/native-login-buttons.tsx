@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { getNativePlatform, isNativePlatform } from "@/lib/platform";
+import { isNativeIOS, isNativePlatform } from "@/lib/platform";
 import { nativeSignIn } from "@/lib/native-auth";
 import { t } from "@/lib/i18n";
 import type { UiLanguage } from "@/lib/ui-language";
@@ -25,17 +25,15 @@ export function NativeLoginButtons({
   hasApple,
 }: Props) {
   const [isNative, setIsNative] = useState(false);
-  const [platform, setPlatform] = useState<string | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
   const [loading, setLoading] = useState<"google" | "apple" | null>(null);
 
   useEffect(() => {
     setIsNative(isNativePlatform());
-    setPlatform(getNativePlatform());
+    setIsIOS(isNativeIOS());
   }, []);
 
   if (!isNative) return null;
-
-  const showApple = hasApple && platform === "ios";
 
   const handleNativeSignIn = async (provider: "google" | "apple") => {
     try {
@@ -88,7 +86,7 @@ export function NativeLoginButtons({
             })}
       </Button>
 
-      {showApple ? (
+      {isIOS && hasApple ? (
         <Button
           type="button"
           size="lg"
