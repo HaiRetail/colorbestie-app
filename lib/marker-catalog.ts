@@ -137,6 +137,7 @@ export const MARKER_CATALOG: MarkerBrand[] = [
     brand: "DecoTime (Action)",
     series: [
       { name: "Twinmarkers", sets: ["12", "16", "36", "60", "72", "80", "150", "160", "200", "300"] },
+      { name: "Aquamarkers", sets: ["120"] },
     ],
   },
   {
@@ -148,7 +149,7 @@ export const MARKER_CATALOG: MarkerBrand[] = [
   {
     brand: "Chotune",
     series: [
-      { name: "Alcohol Markers", sets: ["168"] },
+      { name: "Alcohol Markers", sets: ["168", "262"] },
     ],
   },
   {
@@ -173,6 +174,18 @@ export const MARKER_CATALOG: MarkerBrand[] = [
     brand: "Gofun",
     series: [
       { name: "Alcohol Markers (Dual Tip)", sets: ["262"] },
+    ],
+  },
+  {
+    brand: "Xieed",
+    series: [
+      { name: "Alcohol Markers", sets: ["240"] },
+    ],
+  },
+  {
+    brand: "Panduro",
+    series: [
+      { name: "Alcohol Markers", sets: ["168"] },
     ],
   },
 ];
