@@ -87,7 +87,7 @@ export default function ResetPasswordPage() {
         {done ? (
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             className="mt-3 w-full"
             onClick={() => {
               window.location.href = "/login";
