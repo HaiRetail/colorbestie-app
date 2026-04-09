@@ -26,8 +26,9 @@ export async function GET(request: Request) {
   const tokenHash = url.searchParams.get("token_hash");
   const type = url.searchParams.get("type") as EmailOtpType | null;
 
-  const nextParam = url.searchParams.get("next") ?? "/app";
-  const next = nextParam.startsWith("/") ? nextParam : "/app";
+  const defaultNext = type === "recovery" ? "/reset-password" : "/app";
+  const nextParam = url.searchParams.get("next") ?? defaultNext;
+  const next = nextParam.startsWith("/") ? nextParam : defaultNext;
 
   const supabase = await getSupabaseServerAuthClient();
 

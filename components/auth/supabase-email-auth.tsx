@@ -103,7 +103,7 @@ export function SupabaseEmailAuth({ callbackUrl, uiLanguage }: { callbackUrl: st
     const authOrigin = resolveAuthOrigin();
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${authOrigin}/auth/callback?next=/login`,
+      redirectTo: `${authOrigin}/auth/callback?next=/reset-password`,
     });
 
     setIsBusy(false);
