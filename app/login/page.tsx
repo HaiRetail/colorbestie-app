@@ -5,6 +5,7 @@ import { InAppBrowserWarning } from "@/components/auth/inapp-browser-warning";
 import { NativeLoginButtons } from "@/components/auth/native-login-buttons";
 import { HideOnNativeIOS } from "@/components/auth/hide-on-native-ios";
 import { SupabaseEmailAuth } from "@/components/auth/supabase-email-auth";
+import { SupabaseGoogleAuthButton } from "@/components/auth/supabase-google-auth";
 import { Button } from "@/components/ui/button";
 import { resolveUiLanguage } from "@/lib/ui-language";
 import { t } from "@/lib/i18n";
@@ -39,17 +40,7 @@ export default async function LoginPage({ searchParams }: Props) {
         {/* Web: server-action forms (hidden on native iOS) */}
         <HideOnNativeIOS>
           <div className="mt-8 space-y-3">
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google", { redirectTo: callbackUrl });
-              }}
-            >
-              <Button type="submit" size="lg" className="w-full gap-2 bg-black text-white hover:bg-black/90">
-                <Image src="/icons/google-g.svg" alt="Google" width={18} height={18} />
-                {t(uiLanguage, { nl: "Ga verder met Google", en: "Continue with Google", fr: "Continuer avec Google", de: "Mit Google fortfahren", es: "Continuar con Google" })}
-              </Button>
-            </form>
+            <SupabaseGoogleAuthButton callbackUrl={callbackUrl} uiLanguage={uiLanguage} />
 
             {hasApple ? (
               <form
