@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import { CapacitorBootstrap } from "@/components/app/capacitor-bootstrap";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -18,7 +19,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <CapacitorBootstrap />
+        {children}
+      </body>
     </html>
   );
 }

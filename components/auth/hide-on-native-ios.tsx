@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { isNativeIOS } from "@/lib/platform";
+import { isNativePlatform } from "@/lib/platform";
 
-/** Hides its children only on native iOS, where we rely on the native social-login plugin. */
+/** Hides its children when running inside the native Capacitor shell. */
 export function HideOnNativeIOS({ children }: { children: ReactNode }) {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    setHide(isNativeIOS());
+    setHide(isNativePlatform());
   }, []);
 
   if (hide) return null;
