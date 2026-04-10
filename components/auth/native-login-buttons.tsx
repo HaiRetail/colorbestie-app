@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { isNativeIOS, isNativePlatform } from "@/lib/platform";
+import { isNativeIOS } from "@/lib/platform";
 import { nativeSignIn } from "@/lib/native-auth";
 import { t } from "@/lib/i18n";
 import type { UiLanguage } from "@/lib/ui-language";
@@ -24,16 +24,16 @@ export function NativeLoginButtons({
   uiLanguage,
   hasApple,
 }: Props) {
-  const [isNative, setIsNative] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [loading, setLoading] = useState<"google" | "apple" | null>(null);
 
   useEffect(() => {
-    setIsNative(isNativePlatform());
     setIsIOS(isNativeIOS());
   }, []);
 
-  if (!isNative) return null;
+  // Android falls back to the regular web OAuth flow because the native
+  // SocialLogin bridge has been unreliable in release builds.
+  if (!isIOS) return null;
 
   const handleNativeSignIn = async (provider: "google" | "apple") => {
     try {

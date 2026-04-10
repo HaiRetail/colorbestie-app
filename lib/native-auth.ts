@@ -46,14 +46,16 @@ export async function nativeSignIn(
   if (provider === "google") {
     const expectedProjectPrefix = "509573695189-";
 
+    // Hard pin the shared Google WEB client id to the Colorbestie GCP project.
+    // On Android, the Capgo plugin reads `webClientId` as the Google client id.
+    // Do not hardcode a single Android OAuth client here, because debug/release
+    // builds use different certificate fingerprints and therefore different
+    // Android OAuth clients in Google Cloud.
     const googleWebClientId =
       "509573695189-68759k455hgsigqn7733476ajbcdd72c.apps.googleusercontent.com";
-    const googleAndroidClientId =
-      "509573695189-ls009mtq0rgbbpj5lsr76p2g2o99gi2o.apps.googleusercontent.com";
 
     const googleConfig: Record<string, string> = {
       webClientId: googleWebClientId,
-      androidClientId: googleAndroidClientId,
       mode: "online",
     };
 
